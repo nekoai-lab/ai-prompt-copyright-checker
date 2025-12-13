@@ -1,10 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --background: 255 255 255;
+    --foreground: 30 30 30;
+    --card: 255 255 255;
+    --card-foreground: 30 30 30;
+    --popover: 255 255 255;
+    --popover-foreground: 30 30 30;
+    --primary: 147 51 234;
+    --primary-foreground: 255 255 255;
+    --secondary: 236 72 153;
+    --secondary-foreground: 255 255 255;
+    --muted: 250 250 250;
+    --muted-foreground: 120 120 120;
+    --accent: 236 72 153;
+    --accent-foreground: 255 255 255;
+    --destructive: 239 68 68;
+    --destructive-foreground: 255 255 255;
+    --border: 230 230 230;
+    --input: 250 250 250;
+    --ring: 147 51 234;
+    --radius: 1rem;
+  }
+}
+
+@layer base {
+  body {
+    background: #FDF4FF;
+    color: hsl(var(--foreground));
+    font-family: 'Inter', 'Zen Kaku Gothic New', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(147, 51, 234, 0.5) 0%, transparent 60%),
+      radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.5) 0%, transparent 60%),
+      radial-gradient(circle at 50% 10%, rgba(168, 85, 247, 0.4) 0%, transparent 50%);
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+    animation: blob-animation 20s ease-in-out infinite;
+  }
+  
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+  
+  @keyframes blob-animation {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(5%, -5%) scale(1.05);
+    }
+    66% {
+      transform: translate(-3%, 3%) scale(0.95);
+    }
+  }
+  
+  /* Textarea のデフォルトスタイル - グラスモーフィズム */
+  textarea {
+    background-color: #f8fafc !important;
+    color: #1a1a1a !important;
+    border-color: transparent !important;
+    border-width: 1px !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06) !important;
+    font-weight: 500 !important;
+  }
+  
+  textarea::placeholder {
+    color: #a0a0a0 !important;
+    font-weight: 400 !important;
+  }
+  
+  textarea:focus {
+    background-color: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 
+      inset 0 2px 4px rgba(0, 0, 0, 0.06),
+      0 0 0 2px rgba(147, 51, 234, 0.3),
+      0 10px 25px rgba(147, 51, 234, 0.1) !important;
+  }
+}
+
 @layer utilities {
   .animate-fade-in-up {
     animation: fadeInUp 0.5s ease-out;
+  }
+  
+  .animate-sparkle {
+    animation: sparkle 2s ease-in-out infinite;
+  }
+  
+  .cute-gradient-text {
+    background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .cute-underline {
+    position: relative;
+    display: block;
+    width: 100%;
+  }
+  
+  .cute-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #9333ea, #ec4899);
+    border-radius: 2px;
+    opacity: 0.6;
+  }
+  
+  .cute-shadow {
+    box-shadow: 0 4px 20px rgba(147, 51, 234, 0.1), 0 2px 8px rgba(236, 72, 153, 0.08);
+  }
+  
+  .cute-shadow-lg {
+    box-shadow: 0 8px 30px rgba(147, 51, 234, 0.12), 0 4px 12px rgba(236, 72, 153, 0.1);
   }
 }
 
@@ -19,3 +152,13 @@
   }
 }
 
+@keyframes sparkle {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.4));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.9)) drop-shadow(0 0 16px rgba(245, 158, 11, 0.5));
+    transform: scale(1.08);
+  }
+}

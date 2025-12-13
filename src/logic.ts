@@ -31,11 +31,11 @@ const callGeminiAPI = async (prompt: string): Promise<LLMDetectionResponse> => {
 {
   "detections": [
     {
-      "name": "検出された項目名（例: ピカチュウ）",
+      "name": "検出された項目名（例: 月ねこ）",
       "matchedText": "プロンプト内でマッチしたテキスト",
       "category": "Character | Franchise | Style | Brand",
       "riskLevel": "High | Medium | Low",
-      "rightsHolder": "権利者名（例: 株式会社ポケモン）",
+      "rightsHolder": "権利者名（例: 架空のキャラクター）",
       "description": "リスクの説明",
       "alternatives": ["安全な代替表現1", "安全な代替表現2"]
     }
@@ -109,11 +109,11 @@ const callOpenAIAPI = async (prompt: string): Promise<LLMDetectionResponse> => {
 {
   "detections": [
     {
-      "name": "検出された項目名（例: ピカチュウ）",
+      "name": "検出された項目名（例: 月ねこ）",
       "matchedText": "プロンプト内でマッチしたテキスト",
       "category": "Character | Franchise | Style | Brand",
       "riskLevel": "High | Medium | Low",
-      "rightsHolder": "権利者名（例: 株式会社ポケモン）",
+      "rightsHolder": "権利者名（例: 架空のキャラクター）",
       "description": "リスクの説明",
       "alternatives": ["安全な代替表現1", "安全な代替表現2"]
     }

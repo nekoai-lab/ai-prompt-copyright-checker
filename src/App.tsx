@@ -2,6 +2,11 @@ import { useState } from 'react';
 import { analyzePrompt } from './logic';
 import { AssessmentResult } from './types';
 import { ResultView } from './components/ResultView';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Loader2, AlertCircle, Cat } from 'lucide-react';
 
 export default function App() {
   const [prompt, setPrompt] = useState('');
@@ -9,6 +14,7 @@ export default function App() {
   const [safePrompt, setSafePrompt] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [imageError, setImageError] = useState(false);
 
   const handleAnalyze = async () => {
     if (!prompt) return;
@@ -30,51 +36,86 @@ export default function App() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-8 font-sans min-h-screen bg-gray-50/50">
-      <header className="text-center pt-10 mb-10">
-        <h1 className="text-3xl font-bold text-gray-800 tracking-tight">🎨 AI画像生成プロンプト著作権チェッカー</h1>
-        <p className="text-gray-500 mt-2">意図しない権利侵害を防ぎ、安全なクリエイティブ活動を。</p>
-      </header>
-
-      <section className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
-        <label className="block text-sm font-bold text-gray-700 mb-2">プロンプトを入力</label>
-        <textarea
-          className="w-full h-32 p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none"
-          placeholder="例: 森の中を歩くピカチュウのような動物..."
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          maxLength={5000}
-          disabled={loading}
-        />
-        <div className="flex justify-between mt-3 items-center">
-          <span className="text-xs text-gray-400 font-mono">{prompt.length} / 5000</span>
-          <button
-            onClick={handleAnalyze}
-            disabled={!prompt || loading}
-            className="px-8 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-bold shadow-md shadow-indigo-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-          >
-            {loading ? (
-              <>
-                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                分析中...
-              </>
+    <div className="min-h-screen">
+      <div className="max-w-3xl mx-auto px-4 py-4 space-y-3">
+        {/* Header - コンパクトヒーロー */}
+        <header className="flex flex-col items-center justify-center text-center px-4 pb-2">
+          {/* キャラクター画像 - 1.5倍サイズ */}
+          <div className="relative w-[7.5rem] h-[7.5rem] mb-3">
+            <div className="absolute inset-0 rounded-full bg-white/40 backdrop-blur-md border border-white/50 shadow-xl shadow-purple-500/20 -z-10"></div>
+            {!imageError ? (
+              <img
+                src="/tsukinek.png"
+                alt="月ねこ"
+                className="w-[7.5rem] h-[7.5rem] rounded-full border-4 border-white shadow-xl shadow-purple-500/40 object-cover relative z-10"
+                onError={() => setImageError(true)}
+              />
             ) : (
-              'リスク判定を実行'
+              <div className="w-[7.5rem] h-[7.5rem] rounded-full border-4 border-white shadow-xl shadow-purple-500/40 bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center relative z-10">
+                <Cat className="w-14 h-14 text-purple-600" strokeWidth={2} />
+              </div>
             )}
-          </button>
-        </div>
-        {error && (
-          <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
-            ⚠️ {error}
           </div>
-        )}
-      </section>
+          
+          {/* タイトル */}
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-black tracking-tighter leading-tight bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+              月ねこAI
+            </h1>
+            <p className="text-2xl md:text-3xl font-black tracking-wider bg-gradient-to-r from-slate-600 via-purple-500 to-pink-500 bg-clip-text text-transparent drop-shadow-sm">
+              プロンプト著作権チェッカー
+            </p>
+          </div>
+        </header>
 
-      {result && <ResultView result={result} originalPrompt={prompt} safePrompt={safePrompt} />}
+        {/* Input Section */}
+        <Card className="bg-white/60 backdrop-blur-xl border border-white/50 shadow-xl shadow-purple-500/10 rounded-2xl">
+          <CardHeader className="p-4 pb-2">
+            <CardTitle className="text-gray-900 font-bold text-lg">プロンプトを入力</CardTitle>
+            <CardDescription className="text-gray-600 font-medium text-xs">
+              画像生成プロンプトを入力して、著作権リスクをチェックします
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="px-4 pb-4 space-y-2">
+            <Textarea
+              placeholder="例: 森の中を歩く月ねこのような動物..."
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              maxLength={5000}
+              disabled={loading}
+              className="min-h-[80px] resize-none text-base text-gray-900 placeholder:text-gray-400 transition-all duration-200 rounded-xl shadow-inner"
+            />
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-gray-500 font-medium">
+                {prompt.length} / 5000
+              </span>
+              <Button
+                onClick={handleAnalyze}
+                disabled={!prompt || loading}
+                className="gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white font-bold shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 border-0 rounded-xl px-6 py-5"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <span>分析中...</span>
+                  </>
+                ) : (
+                  'リスク判定を実行'
+                )}
+              </Button>
+            </div>
+            {error && (
+              <Alert variant="destructive" className="bg-red-50/80 backdrop-blur-sm border-red-200/50 text-red-800 rounded-2xl">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Results */}
+        {result && <ResultView result={result} originalPrompt={prompt} safePrompt={safePrompt} />}
+      </div>
     </div>
   );
 }
-
