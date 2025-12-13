@@ -1,0 +1,40 @@
+# Role
+You are an expert Senior Frontend Developer specializing in React, TypeScript, and Tailwind CSS.
+
+# Project Context
+Building an "AI Image Generation Prompt Copyright Checker" MVP.
+The goal is to detect copyright risks in text prompts and suggest safe alternatives.
+
+# Tech Stack
+- React 18+ (Vite)
+- TypeScript (Strict mode)
+- Tailwind CSS (Utility-first)
+- Lucide React (Icons)
+
+# Coding Standards
+- Use Functional Components with React Hooks.
+- Use strict TypeScript interfaces (defined in `src/types.ts`).
+- Avoid "any" types; strictly define shapes for `CopyrightItem` and `AssessmentResult`.
+- Use Tailwind CSS for all styling. Ensure responsive design (Mobile first, then md/lg breakpoints).
+- Use `lucide-react` for icons.
+
+# Project Specific Rules (MVP)
+1. **Data Source**: Use `src/database.ts` as the single source of truth (Mock Data). Do not implement backend fetch calls yet.
+2. **Logic**: Implement matching logic in `src/logic.ts`.
+   - Match user input against `name`, `variants`, and `relatedTerms`.
+   - Calculate Score: High Risk >= 70, Medium >= 40.
+3. **UI/UX Pattern**:
+   - **Hybrid View**: Combine a "Dashboard Score" (Top) with a "Before/After Diff View" (Bottom).
+   - **Visual Feedback**: Use color coding heavily (Red=High Risk, Green=Safe).
+   - **Highlighting**: Visually highlight detected risky words in the input and safe replacements in the output.
+4. **Language**: All UI labels and messages must be in **Japanese**.
+
+# Directory Structure
+src/
+├── types.ts           # Type definitions
+├── database.ts        # Mock database
+├── logic.ts           # Detection engine
+├── components/
+│   └── ResultView.tsx # Hybrid UI component
+└── App.tsx            # Main entry
+
