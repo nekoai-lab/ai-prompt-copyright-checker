@@ -1,8 +1,8 @@
 import { DetectionResult, AssessmentResult, LLMDetectionResponse, RiskLevel } from './types';
 
 const SCORES = {
-  matchType: { Exact: 40, Variant: 30, Related: 20 },
-  riskMultiplier: { High: 1.5, Medium: 1.0, Low: 0.5 }
+  matchType: { Exact: 50, Variant: 35, Related: 20 },
+  riskMultiplier: { High: 2.0, Medium: 1.0, Low: 0.5 }
 };
 
 // LLM APIを呼び出す関数
@@ -216,9 +216,10 @@ export const analyzePrompt = async (prompt: string): Promise<{ result: Assessmen
   
   const totalScore = Math.min(100, Math.round(rawScore));
   
-  // リスクレベル判定
+  // リスクレベル判定（Highリスク検出があれば即座にHigh判定）
   let riskLevel: RiskLevel = 'Low';
-  if (totalScore >= 70) riskLevel = 'High';
+  const hasHighRisk = detections.some(d => d.item.riskLevel === 'High');
+  if (hasHighRisk || totalScore >= 70) riskLevel = 'High';
   else if (totalScore >= 40) riskLevel = 'Medium';
 
   const result: AssessmentResult = {
