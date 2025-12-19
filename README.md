@@ -25,8 +25,6 @@
   <img src="docs/screenshot.png" alt="アプリのスクリーンショット" width="600" />
 </p>
 
-> ※ スクリーンショットは `docs/screenshot.png` に配置してください
-
 ---
 
 ## ✨ こんな悩みを解決します
