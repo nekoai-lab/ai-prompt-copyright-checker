@@ -9,6 +9,24 @@
   著作権リスクをAIがチェックして、安全な代替プロンプトを提案します
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" />
+  <img src="https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg" alt="Node.js" />
+  <img src="https://img.shields.io/badge/React-18-61dafb.svg" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-5.2-3178c6.svg" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Vite-5-646cff.svg" alt="Vite" />
+</p>
+
+---
+
+## 📸 スクリーンショット
+
+<p align="center">
+  <img src="docs/screenshot.png" alt="アプリのスクリーンショット" width="600" />
+</p>
+
+> ※ スクリーンショットは `docs/screenshot.png` に配置してください
+
 ---
 
 ## ✨ こんな悩みを解決します
@@ -33,6 +51,27 @@
 
 ---
 
+## 🏗️ アーキテクチャ
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────────┐
+│   ユーザー   │────▶│  React App  │────▶│  LLM API        │
+│  (ブラウザ)  │◀────│  (Vite)     │◀────│  Gemini/OpenAI  │
+└─────────────┘     └─────────────┘     └─────────────────┘
+                           │
+                    ┌──────┴──────┐
+                    │  判定ロジック │
+                    │  (logic.ts)  │
+                    └─────────────┘
+```
+
+1. ユーザーがプロンプトを入力
+2. React アプリが LLM API に分析リクエストを送信
+3. LLM がプロンプトを分析し、著作権リスクを判定
+4. 結果をユーザーに表示（リスクスコア + 安全な代替案）
+
+---
+
 ## 📖 使い方
 
 1. **プロンプトを入力** - チェックしたいプロンプトを入力欄に貼り付け
@@ -47,9 +86,10 @@
 ### 必要なもの
 
 - Node.js 18以上
+- npm または yarn
 - Google Gemini API キー または OpenAI API キー
 
-### インストール手順
+### クイックスタート
 
 ```bash
 # 1. リポジトリをクローン
@@ -69,7 +109,7 @@ npm run dev
 
 ### 環境変数の設定
 
-`.env`ファイルを作成し、以下を設定してください：
+`.env.example` をコピーして `.env` ファイルを作成し、APIキーを設定してください：
 
 ```env
 # 使用するLLMプロバイダー（gemini または openai）
@@ -107,17 +147,20 @@ VITE_OPENAI_API_KEY=your_api_key_here
 
 ### 技術スタック
 
-- React 18 + Vite
-- TypeScript
-- Tailwind CSS
-- Shadcn UI / Radix UI
-- Lucide React
-- Google Gemini API / OpenAI API
+| カテゴリ | 技術 |
+|---------|------|
+| フレームワーク | React 18 |
+| ビルドツール | Vite 5 |
+| 言語 | TypeScript 5.2 |
+| スタイリング | Tailwind CSS 3 |
+| UIコンポーネント | Shadcn UI / Radix UI |
+| アイコン | Lucide React |
+| AI API | Google Gemini / OpenAI |
 
 ### コマンド
 
 ```bash
-npm run dev      # 開発サーバー起動
+npm run dev      # 開発サーバー起動（http://localhost:5173）
 npm run build    # 本番ビルド
 npm run preview  # ビルドプレビュー
 npm run lint     # ESLint実行
@@ -130,29 +173,53 @@ src/
 ├── App.tsx            # メインアプリ
 ├── logic.ts           # API呼び出し・判定ロジック
 ├── types.ts           # 型定義
+├── index.css          # グローバルスタイル
+├── main.tsx           # エントリーポイント
 ├── components/
 │   ├── ResultView.tsx # 結果表示コンポーネント
-│   └── ui/            # UIコンポーネント
+│   └── ui/            # Shadcn UIコンポーネント
+│       ├── alert.tsx
+│       ├── badge.tsx
+│       ├── button.tsx
+│       ├── card.tsx
+│       └── textarea.tsx
 └── lib/
-    └── utils.ts       # ユーティリティ
+    └── utils.ts       # ユーティリティ関数
 ```
+
+### テスト
+
+詳細なテスト手順は [TESTING.md](./TESTING.md) を参照してください。
 
 ---
 
 ## 📝 注意事項
 
-- このツールは著作権リスクの判定を支援するものであり、法的なアドバイスではありません
+- このツールは著作権リスクの判定を**支援**するものであり、法的なアドバイスではありません
 - 最終的な判断はご自身の責任で行ってください
 - APIの使用には料金が発生する場合があります（Gemini APIは無料枠あり）
+- LLMの判定は100%正確ではありません。参考情報としてご利用ください
+
+---
+
+## 🤝 コントリビューション
+
+プルリクエストは歓迎です！大きな変更を加える場合は、まずIssueを作成して変更内容を議論してください。
+
+1. Fork する
+2. Feature ブランチを作成 (`git checkout -b feature/amazing-feature`)
+3. 変更をコミット (`git commit -m 'Add amazing feature'`)
+4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
+5. Pull Request を作成
 
 ---
 
 ## 📄 ライセンス
 
-MIT License
+MIT License - 詳細は [LICENSE](./LICENSE) を参照してください。
 
 ---
 
 <p align="center">
-  Made with 💜 by nekoai-lab
+  Made with 💜 by <a href="https://github.com/nekoai-lab">nekoai-lab</a>
 </p>
