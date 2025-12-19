@@ -9,7 +9,9 @@ The goal is to detect copyright risks in text prompts and suggest safe alternati
 - React 18+ (Vite)
 - TypeScript (Strict mode)
 - Tailwind CSS (Utility-first)
+- Shadcn UI / Radix UI (Components)
 - Lucide React (Icons)
+- LLM API (Google Gemini / OpenAI)
 
 # Coding Standards
 - Use Functional Components with React Hooks.
@@ -19,9 +21,9 @@ The goal is to detect copyright risks in text prompts and suggest safe alternati
 - Use `lucide-react` for icons.
 
 # Project Specific Rules (MVP)
-1. **Data Source**: Use `src/database.ts` as the single source of truth (Mock Data). Do not implement backend fetch calls yet.
-2. **Logic**: Implement matching logic in `src/logic.ts`.
-   - Match user input against `name`, `variants`, and `relatedTerms`.
+1. **Data Source**: Use LLM API (Gemini or OpenAI) for real-time copyright risk detection.
+2. **Logic**: Implement API calls and detection logic in `src/logic.ts`.
+   - Call LLM API to analyze prompts for copyright risks.
    - Calculate Score: High Risk >= 70, Medium >= 40.
 3. **UI/UX Pattern**:
    - **Hybrid View**: Combine a "Dashboard Score" (Top) with a "Before/After Diff View" (Bottom).
@@ -32,9 +34,9 @@ The goal is to detect copyright risks in text prompts and suggest safe alternati
 # Directory Structure
 src/
 ├── types.ts           # Type definitions
-├── database.ts        # Mock database
-├── logic.ts           # Detection engine
+├── logic.ts           # LLM API calls and detection engine
 ├── components/
-│   └── ResultView.tsx # Hybrid UI component
+│   ├── ResultView.tsx # Hybrid UI component
+│   └── ui/            # Shadcn UI components
 └── App.tsx            # Main entry
 
